@@ -1,0 +1,149 @@
+{% extends 'free.html' %}
+{%load static%}
+
+{% block title %} Instagram {% endblock %}
+
+{%block content%}
+
+<br>
+<br>
+<br>
+
+<div class="container-fluid ">
+  
+    <div class="col-md-6 mt-4 " >
+    
+{% for posts in post %}
+      
+
+      <div class="card m-4 mx-4 mt-3 ">
+        <div class="card-header p-1">
+          <div class="image">
+            <img class ="rounded-circle" src="{{posts.user.profile.photo.url}}" alt="" height="30" width="30">
+            <a class="mr-2" href="{% url 'Profile' posts.user.pk  %}"><span class='owner-username'>{{posts.user}}</span></a>
+          </div>
+           
+          
+          </div>
+        
+        
+        
+        <a href="/">
+          <img src="{{posts.photo.url}}" class="card-img-top" alt="..." />
+        </a>
+       
+       <div class="card-body">
+          <div class="icons-container" style="display: flex;">
+            <div class="like mr-2 " >
+              <form method="POST">
+                {% csrf_token %}
+                {% if is_like %}
+                <a href="{% url 'like' posts.pk%}">
+                <img src="{% static 'heart.png' %}" alt=""  height=40px  />
+              </a>
+              {% else %}
+              <a href="{% url 'like' posts.pk%}">
+                <img src="{% static 'liked.png' %}" alt=""  height=40px  />
+              </a>
+              {% endif %}
+            </form>
+          
+            </div>
+            <div class="comment mr-1 mt-0">
+              <a href="/">
+                <img src="{% static 'chat.png' %}" alt="" height=40px >
+              </a>
+            </div>
+            <div class="comment">
+              <a href="/">
+                <img src="{% static 'send.png' %}" alt="" height=40px />
+              </a>
+            </div>
+          
+         
+       
+            
+          </div>
+       
+           <h5> {% if posts.likes.all.count > 1 %}
+            {{posts.likes.all.count}} likes
+            {% elif posts.likes.all.count == 1 %}
+            {{posts.likes.all.count}} like
+            {% endif %}</h5>
+          
+ <span class='owner-username mt-3'>{{posts.user.username}}</span> {{posts.caption}}
+
+         {% if posts.comments.count > 2 %}
+          <div class='all-comments text-muted' id='all-comments-{{post.id}}'><a href ="/" > View all {{posts.comments.count}} comments </a></div>
+          {% endif %}
+        <div class='comment-section comment-section-{{posts.id}}' id='comment-section-{{posts.id}}'>
+             {% for comment in posts.comments.all %} 
+              <p> <span class='owner-username'><a href="/">{{comment.user}}</a></span> {{comment.comment}} </p>
+            {% endfor %} 
+          </div>
+          <span class="text-muted">{{posts.datetime|timesince}} ago </span>
+        </div>
+        <div class="comments-form">
+   <form action="{%url 'add_comment' posts.id %}" method="POST">
+            {%csrf_token%}
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                name="comment"
+                placeholder="Add comment"
+              />
+              <button class="btn btn-success" type="submit">Post</button>
+            </div>
+          </form>
+        </div>
+      </div>
+     
+
+  {% endfor %}
+
+
+
+
+   
+<div class="side-content col-md-4 d-none d-lg-block">
+    <div class="content-section">
+      <div class='media'>
+        <div class='media-left' style="margin-right:2%;">
+          <img class="rounded-circle post-owner-img" src="{{user.profile.photo.url}}" style="width:60px;">
+        </div>
+        <div class='media-body' style="margin-top:0%;">
+          <div class='media-heading'>
+            <a class="owner-username mr-2 text-dark" href="{% url 'Profile' user.pk  %}"> {{ user.username }} </a>
+          </div>
+          <div class='text-muted'>{{ user.first_name }} </div>
+        </div>
+      </div>
+    
+      <small style="color:#cacaca; font-size:70%; cursor: pointer;">
+        About &middot; Help &middot; Press &middot; API &middot; Jobs &middot; Privacy &middot; Terms &middot; Locations <br>
+        Top Accounts &middot; Hashtags &middot; Language <br><br>© 2021 INSTAGRAM FROM FACEBOOK
+      </small>
+
+    </div>
+  </div> 
+</div>
+
+
+
+
+
+        
+        
+
+<footer class='col-12 mb-3 mt-5 justify-content-center' style="font-size: 0.75rem; color:#8e8e8e;">
+
+  <p class='text-center'style='cursor:pointer;'> About  &emsp;Blog  &emsp;Jobs &emsp; Help &emsp; API  &emsp;Privacy &emsp; Terms &emsp; Top Accounts &emsp; Hashtags &emsp;Locations</p>
+  <p class='text-center'style='cursor:pointer;'> English  © 2021 Instagram from Facebook</p>
+</footer>
+
+
+
+{%endblock content%}
+
+

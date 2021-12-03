@@ -1,0 +1,34 @@
+re{% extends 'free.html' %}
+{%load static%}
+{% load crispy_forms_tags %}
+{% block title %} Create Post {% endblock %}
+{%block content%}
+
+<center>
+ <div class='card col-12 col-sm-8 col-md-5 p-4 text-center p-4 pt-5' style="margin-top:5rem">
+      <p><img src="{% static 'instagramlogo.png' %}" alt="logo" style="width:180px"></p>  
+      <h5>Create New Post</h5>
+      <p class='text-muted mb-5'>Upload an image and add a caption.</p>
+
+     <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          
+            {{postform.as_p}}
+          
+      
+          <input type="submit" class="btn btn-primary col-12 mt-2 p-1" value="Upload" style="font-size: 0.9rem; font-weight: 600; background-color:#0095f6;" />
+         <input type="hidden" name="next" value="" /> 
+      </form>
+  </div>
+</center>
+  <footer class='col-12 mb-2 mt-5 justify-content-center' style="font-size: 0.75rem; color:#8e8e8e">
+      <p class='text-center'style='cursor:pointer;'> About  &emsp;Blog  &emsp;Jobs &emsp; Help &emsp; API  &emsp;Privacy &emsp; Terms &emsp; Top Accounts &emsp; Hashtags &emsp;Locations</p>
+      <p class='text-center'style='cursor:pointer;'> English  © 2021 Instagram from Facebook</p>
+  </footer>
+
+ 
+   
+{%endblock content%}
+
+
+
